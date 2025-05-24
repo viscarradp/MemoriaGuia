@@ -30,8 +30,28 @@ namespace Memoria
         }
         private void verificaGana()
         {
+            // Recorremos todos los controles del TableLayoutPanel
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Label iconLabel = control as Label;
+                if (iconLabel != null)
+                {
+                    // Si encontramos algún label que aún esté oculto (ForeColor != Black)
+                    // significa que el juego no ha terminado
+                    if (iconLabel.ForeColor != Color.Black)
+                    {
+                        return; // Salimos del método sin mostrar el mensaje
+                    }
+                }
+            }
 
+            // Si llegamos hasta aquí, significa que todos los iconos están visibles
+            MessageBox.Show("¡Felicidades! Has encontrado todas las parejas. Ganaste el juego!",
+                            "¡WUUUUU!",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
         }
+        
 
         private void Clic_sobre_Etiqueta(object sender, EventArgs e)
         {
@@ -44,7 +64,7 @@ namespace Memoria
                 {
                     if (clickedLabel.ForeColor == Color.Black)
                         return;
-                    verificaGana();
+                    
                 if (primerclick == null)
                 {
                     primerclick = clickedLabel;
@@ -62,6 +82,7 @@ namespace Memoria
                 {
                     primerclick = null;
                     segundoclick = null;
+                    verificaGana();
                     return;
                 }
                 timer1.Start();
@@ -116,6 +137,11 @@ namespace Memoria
             segundoclick.ForeColor = segundoclick.BackColor;
             primerclick = null;
             segundoclick = null;
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
